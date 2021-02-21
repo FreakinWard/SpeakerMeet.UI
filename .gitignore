@@ -5,6 +5,9 @@
 /public/images/conferences
 /public/images/speakers
 
+# msw
+/public/mockServiceWorker.js
+
 # dependencies
 /node_modules
 
@@ -105,6 +108,3 @@ fabric.properties
 # Cypress
 cypress/videos
 cypress/screenshots
-
-# msw
-public/mockServiceWorker.js

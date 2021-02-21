@@ -8,6 +8,9 @@ React front-end for SpeakerMeet.net.
 
 If you're looking for the back-end Api, check out the [SpeakerMeet.Api](https://github.com/ovation22/SpeakerMeet.Api) repository.
 
+## Testing
+`npx msw init public/`
+
 ## Give a Star! :star:
 If you like the project, please consider giving it a star!
 
