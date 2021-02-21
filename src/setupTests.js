@@ -6,11 +6,19 @@
 import '@testing-library/jest-dom/extend-expect';
 import MutationObserver from '@sheerun/mutationobserver-shim';
 
-window.scrollTo = (x) => x
+const mockConfig = {
+  api: 'https://mockUrl.com',
+  nodeEnvironments: { production: 'production' },
+  applicationInsightsTelemetryKey: 'applicationInsightsTelemetryKeyValue',
+};
+
+jest.mock('./constants/config', () => mockConfig);
+
+window.scrollTo = x => x;
 window.MutationObserver = MutationObserver;
 
 global.matchMedia = media => ({
-    addListener: () => {},
-    removeListener: () => {},
-    matches: media === '(min-width: 1200px)',
+  addListener: () => {},
+  removeListener: () => {},
+  matches: media === '(min-width: 1200px)',
 });
