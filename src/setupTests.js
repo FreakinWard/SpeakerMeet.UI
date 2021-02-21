@@ -10,6 +10,7 @@ const mockConfig = {
   api: 'https://mockUrl.com',
   nodeEnvironments: { production: 'production' },
   applicationInsightsTelemetryKey: 'applicationInsightsTelemetryKeyValue',
+  disqusShortName: 'disqusShortNameValue',
 };
 
 jest.mock('./constants/config', () => mockConfig);
