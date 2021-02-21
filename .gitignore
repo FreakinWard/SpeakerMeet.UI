@@ -105,3 +105,6 @@ fabric.properties
 # Cypress
 cypress/videos
 cypress/screenshots
+
+# msw
+public/mockServiceWorker.js

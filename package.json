@@ -10,6 +10,7 @@
     "@microsoft/applicationinsights-react-js": "^3.0.5",
     "@microsoft/applicationinsights-web": "^2.5.10",
     "disqus-react": "^1.0.10",
+    "msw": "^0.26.2",
     "prop-types": "^15.7.2",
     "react": "^17.0.1",
     "react-countup": "^4.3.3",

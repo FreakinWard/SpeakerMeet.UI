@@ -5,6 +5,7 @@
 // learn more: https://github.com/testing-library/jest-dom
 import '@testing-library/jest-dom/extend-expect';
 import MutationObserver from '@sheerun/mutationobserver-shim';
+import { server } from './mocks/server';
 
 const mockConfig = {
   api: 'https://mockUrl.com',
@@ -22,4 +23,19 @@ global.matchMedia = media => ({
   addListener: () => {},
   removeListener: () => {},
   matches: media === '(min-width: 1200px)',
+});
+
+beforeAll(() => {
+  // Enable the mocking in tests.
+  server.listen();
+});
+
+afterEach(() => {
+  // Reset any runtime handlers tests may use.
+  server.resetHandlers();
+});
+
+afterAll(() => {
+  // Clean up once the tests are done.
+  server.close();
 });
