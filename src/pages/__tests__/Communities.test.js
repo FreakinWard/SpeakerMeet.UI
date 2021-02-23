@@ -3,6 +3,7 @@ import { HelmetProvider } from 'react-helmet-async';
 import { act, screen } from '@testing-library/react';
 import { render } from '../../utils/test.utilitiy';
 import Communities from '../Communities';
+import { mockCommunities } from '../../mocks/requests';
 
 describe('Communities', () => {
   const tree = (
@@ -13,18 +14,22 @@ describe('Communities', () => {
 
   it('should render expected fields from list of returned communities', async () => {
     // arrange
+    const { communities } = mockCommunities;
+
     // act
     await act(async () => render(tree));
 
     // assert
     screen.getByText('Find a Community');
 
-    expect(await screen.findByText('nameValue1')).toBeInTheDocument();
-    // communities.forEach(community => {
-    //   screen.getByText(community.name);
-    //   screen.getByText(community.location);
-    //   screen.getByText(community.description);
-    // });
+    // TODO: await for the first community to appear before looping thru all communities details
+    await expect(await screen.findByText(communities[0].name)).toBeInTheDocument();
+
+    communities.forEach(community => {
+      expect(screen.getByText(community.name)).toBeInTheDocument();
+      expect(screen.getByText(community.location)).toBeInTheDocument();
+      expect(screen.getByText(community.description)).toBeInTheDocument();
+    });
   });
 
   it.skip('should render error message from failed fetch', async () => {
