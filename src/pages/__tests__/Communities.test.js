@@ -3,7 +3,8 @@ import { HelmetProvider } from 'react-helmet-async';
 import { act, screen } from '@testing-library/react';
 import { render } from '../../utils/test.utilitiy';
 import Communities from '../Communities';
-import { mockCommunities } from '../../mocks/requests';
+import * as useCommunities from '../../hooks/useCommunities';
+import { seedCommunities } from '../../mocks/seed';
 
 describe('Communities', () => {
   const tree = (
@@ -14,7 +15,7 @@ describe('Communities', () => {
 
   it('should render expected fields from list of returned communities', async () => {
     // arrange
-    const { communities } = mockCommunities;
+    const { communities } = seedCommunities;
 
     // act
     await act(async () => render(tree));
@@ -32,15 +33,19 @@ describe('Communities', () => {
     });
   });
 
-  it.skip('should render error message from failed fetch', async () => {
+  it('should render error message from failed fetch', async () => {
     // arrange
-    // const errorMock = new Error('errorMessageValue');
-    // const useCommunitiesMock = () => ({
-    //   error: errorMock,
-    //   isLoaded: true,
-    //   communities: [],
-    // });
-    // jest.spyOn(useCommunities, 'default').mockImplementationOnce(useCommunitiesMock);
+    const errorMock = new Error('errorMessageValue');
+    const useCommunitiesMock = () => ({
+      error: errorMock,
+      isLoaded: true,
+      communities: [],
+    });
+    jest.spyOn(useCommunities, 'default').mockImplementationOnce(useCommunitiesMock);
+    // TODO: make worksy
+    // const mockCommunitiesError = async (req, res, ctx) =>
+    //   res(ctx.status(500), ctx.json({ message: 'errorMessageValue' }));
+    // server.use(rest.get('*/Communities', mockCommunitiesError));
 
     // act
     await act(async () => render(tree));

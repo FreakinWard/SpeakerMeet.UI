@@ -1,11 +1,10 @@
 import { rest } from 'msw';
-import { mockCommunities } from './requests';
+import { seedCommunities } from './seed';
 
+const communitiesHandler = (req, res, ctx) => res(ctx.json(seedCommunities));
 // eslint-disable-next-line import/prefer-default-export
 export const handlers = [
-  rest.get('https://mockUrl.com/api/Communities', (req, res, ctx) =>
-    res(ctx.json(mockCommunities)),
-  ),
+  rest.get('*/Communities', communitiesHandler),
   rest.post('/login', (req, res, ctx) => {
     const { username } = req.body;
 

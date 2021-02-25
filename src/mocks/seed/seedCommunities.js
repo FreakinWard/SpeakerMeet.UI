@@ -1,4 +1,4 @@
-const mockCommunities = {
+const seedCommunities = {
   communities: [
     {
       id: 'idValue1',
@@ -18,5 +18,5 @@ const mockCommunities = {
     },
   ],
 };
-
-export { mockCommunities };
+// eslint-disable-next-line import/prefer-default-export
+export { seedCommunities };
