@@ -7,13 +7,7 @@ import { createMemoryHistory } from 'history';
 import CommunityDetail from '../CommunityDetail';
 import { render } from '../../utils/test.utilitiy';
 import seedCommunity from '../../mocks/seed/seedCommunity';
-import useRequest from '../../hooks/useRequest';
 import routes from '../../constants/routes';
-
-function Thing() {
-  const { data } = useRequest('/Community/idValue');
-  return <div>{data?.name}</div>;
-}
 
 describe('CommunityDetail', () => {
   it('should render the expected Community fields', async () => {
@@ -43,25 +37,5 @@ describe('CommunityDetail', () => {
     });
 
     seedCommunity.tags.forEach(tag => screen.getByText(tag));
-  });
-
-  it('should render with useRequest', async () => {
-    // arrange
-    // act
-    render(<Thing />);
-
-    // assert
-    await screen.findByText(seedCommunity.name);
-  });
-
-  // TODO: Why does this work but not with useRequest?
-  it('should return fetch results', async () => {
-    // arrange
-    // act
-    const response = await fetch('/Community');
-    const responseData = await response.json();
-
-    // assert
-    expect(responseData).toEqual(seedCommunity);
   });
 });
