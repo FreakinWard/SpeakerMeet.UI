@@ -1,4 +1,4 @@
-const seedCommunities = {
+export default {
   communities: [
     {
       id: 'idValue1',
@@ -18,5 +18,3 @@ const seedCommunities = {
     },
   ],
 };
-// eslint-disable-next-line import/prefer-default-export
-export { seedCommunities };

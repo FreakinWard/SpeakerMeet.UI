@@ -4,7 +4,7 @@ import { act, screen } from '@testing-library/react';
 import { render } from '../../utils/test.utilitiy';
 import Communities from '../Communities';
 import * as useCommunities from '../../hooks/useCommunities';
-import { seedCommunities } from '../../mocks/seed';
+import seedCommunities from '../../mocks/seed/seedCommunities';
 
 describe('Communities', () => {
   const tree = (

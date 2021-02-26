@@ -1,61 +1,67 @@
 import React from 'react';
-import { act, screen } from '@testing-library/react';
-import { BrowserRouter } from 'react-router-dom';
+import { screen } from '@testing-library/react';
+
+import { Router } from 'react-router-dom';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core';
+import { createMemoryHistory } from 'history';
 import CommunityDetail from '../CommunityDetail';
 import { render } from '../../utils/test.utilitiy';
+import seedCommunity from '../../mocks/seed/seedCommunity';
+import useRequest from '../../hooks/useRequest';
+import routes from '../../constants/routes';
+
+function Thing() {
+  const { data } = useRequest('/Community/idValue');
+  return <div>{data?.name}</div>;
+}
 
 describe('CommunityDetail', () => {
   it('should render the expected Community fields', async () => {
     // arrange
-    const community = {
-      id: 'idValue',
-      name: 'nameValue1',
-      slug: 'slugValue1',
-      location: 'locationValue1',
-      description: 'descriptionValue1',
-      path: 'pathValue1',
-      tags: ['tag1', 'tag2'],
-      socialPlatforms: [{ name: 'platform', url: 'platformUrl' }],
-    };
-
-    const communityResponseMock = Promise.resolve({
-      ok: true,
-      status: 200,
-      json: () => Promise.resolve(community),
-    });
-    jest.spyOn(global, 'fetch').mockImplementationOnce(() => communityResponseMock);
-
-    const communitiesFeatured = [];
-    const communitiesFeaturedResponseMock = Promise.resolve({
-      ok: true,
-      status: 200,
-      json: () => Promise.resolve(communitiesFeatured),
-    });
-    jest.spyOn(global, 'fetch').mockImplementationOnce(() => communitiesFeaturedResponseMock);
-
     const theme = createMuiTheme();
+    const history = createMemoryHistory();
+    history.push(`${routes.communities.path}/${seedCommunity.slug}`);
 
     const tree = (
       <ThemeProvider theme={theme}>
-        <BrowserRouter>
+        <Router history={history}>
           <CommunityDetail />
-        </BrowserRouter>
+        </Router>
       </ThemeProvider>
     );
 
     // act
-    await act(async () => render(tree));
+    render(tree);
 
     // assert
-    screen.getByText(community.name);
-    screen.getByText(community.location);
-    screen.getByText(community.description);
+    await screen.findByText(seedCommunity.name);
+    screen.getByText(seedCommunity.location);
+    screen.getByText(seedCommunity.description);
 
-    community.socialPlatforms.forEach(platform => {
+    seedCommunity.socialPlatforms.forEach(platform => {
       expect(screen.getByLabelText(platform.name)).toHaveAttribute('href', platform.name.url);
     });
 
-    community.tags.forEach(tag => screen.getByText(tag));
+    seedCommunity.tags.forEach(tag => screen.getByText(tag));
+  });
+
+  it('should render with useRequest', async () => {
+    // arrange
+    // act
+    render(<Thing />);
+
+    // assert
+    await screen.findByText(seedCommunity.name);
+  });
+
+  // TODO: Why does this work but not with useRequest?
+  it('should return fetch results', async () => {
+    // arrange
+    // act
+    const response = await fetch('/Community');
+    const responseData = await response.json();
+
+    // assert
+    expect(responseData).toEqual(seedCommunity);
   });
 });
