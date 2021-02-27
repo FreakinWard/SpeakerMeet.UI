@@ -6,7 +6,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Disqus from 'disqus-react';
 import React from 'react';
-import { useParams } from 'react-router-dom';
+// import { useParams } from 'react-router-dom';
 import BreadCrumbs from '../components/BreadCrumbs';
 import SpeakerDetailTabs from '../components/SpeakerDetailTabs';
 import ErrorSnackbar from '../components/ErrorSnackbar';
@@ -17,6 +17,7 @@ import routes from '../constants/routes';
 import SpeakerCard from '../components/SpeakerCard';
 import TwitterContainer from '../components/TwitterContainer';
 import useSpeaker from '../hooks/useSpeaker';
+import seedSpeaker from '../mocks/seed/seedSpeaker';
 
 const useStyles = makeStyles(theme => ({
   twitter: {
@@ -29,7 +30,9 @@ const useStyles = makeStyles(theme => ({
 
 export default function SpeakerDetail() {
   const classes = useStyles();
-  const { slug } = useParams();
+  // TODO: Need to mock the route to get the slug
+  // const { slug } = useParams();
+  const { slug } = seedSpeaker;
   const { error, isLoaded, speaker } = useSpeaker(slug);
   const disqusShortname = config.disqusShortName;
   const disqusConfig = {
