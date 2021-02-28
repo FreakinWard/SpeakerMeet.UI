@@ -5,6 +5,7 @@ import { render } from '../../utils/test.utilitiy';
 import Communities from '../Communities';
 import * as useCommunities from '../../hooks/useCommunities';
 import seedCommunities from '../../mocks/seed/seedCommunities';
+import routes from '../../constants/routes';
 
 describe('Communities', () => {
   const tree = (
@@ -18,12 +19,13 @@ describe('Communities', () => {
     const { communities } = seedCommunities;
 
     // act
-    await act(async () => render(tree));
+    render(tree, {
+      route: `${routes.communities.path}/${seedCommunities.communities[0].slug}`,
+    });
 
     // assert
     screen.getByText('Find a Community');
 
-    // TODO: await for the first community to appear before looping thru all communities details
     await expect(await screen.findByText(communities[0].name)).toBeInTheDocument();
 
     communities.forEach(community => {

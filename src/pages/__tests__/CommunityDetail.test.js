@@ -1,9 +1,6 @@
 import React from 'react';
 import { screen } from '@testing-library/react';
-
-import { Router } from 'react-router-dom';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core';
-import { createMemoryHistory } from 'history';
 import CommunityDetail from '../CommunityDetail';
 import { render } from '../../utils/test.utilitiy';
 import seedCommunity from '../../mocks/seed/seedCommunity';
@@ -13,19 +10,17 @@ describe('CommunityDetail', () => {
   it('should render the expected Community fields', async () => {
     // arrange
     const theme = createMuiTheme();
-    const history = createMemoryHistory();
-    history.push(`${routes.communities.path}/${seedCommunity.slug}`);
 
     const tree = (
       <ThemeProvider theme={theme}>
-        <Router history={history}>
-          <CommunityDetail />
-        </Router>
+        <CommunityDetail />
       </ThemeProvider>
     );
 
     // act
-    render(tree);
+    render(tree, {
+      route: `${routes.communities.path}/${seedCommunity.slug}`,
+    });
 
     // assert
     await screen.findByText(seedCommunity.name);

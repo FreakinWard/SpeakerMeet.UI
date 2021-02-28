@@ -4,12 +4,13 @@ import Speakers from '../Speakers';
 import * as useSpeakersHook from '../../hooks/useSpeakers';
 import { render } from '../../utils/test.utilitiy';
 import seedSpeakers from '../../mocks/seed/seedSpeakers';
+import routes from '../../constants/routes';
 
 describe('Speakers', () => {
   it('should render loading then show speakers', async () => {
     // arrange
     // act
-    render(<Speakers />);
+    render(<Speakers />, { route: `${routes.speakers.path}/${seedSpeakers.speakers[0].slug}` });
 
     // assert
     expect(screen.getByTestId('loading')).toBeInTheDocument();

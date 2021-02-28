@@ -5,7 +5,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Disqus from 'disqus-react';
 import React from 'react';
-// import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import BreadCrumbs from '../components/BreadCrumbs';
 import CommunityDetailTabs from '../components/CommunityDetailTabs';
 import ErrorSnackbar from '../components/ErrorSnackbar';
@@ -15,12 +15,9 @@ import config from '../constants/config';
 import routes from '../constants/routes';
 import CommunityCard from '../components/CommunityCard';
 import useCommunity from '../hooks/useCommunity';
-import seedCommunity from '../mocks/seed/seedCommunity';
 
 export default function CommunityDetail() {
-  // const { slug } = useParams();
-  const { slug } = seedCommunity;
-
+  const { slug } = useParams();
   const { isLoaded, error, community } = useCommunity(slug);
   const disqusShortname = config.disqusShortName;
   const disqusConfig = {
