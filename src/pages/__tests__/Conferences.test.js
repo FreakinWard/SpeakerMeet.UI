@@ -4,38 +4,11 @@ import { act, screen } from '@testing-library/react';
 import { render } from '../../utils/test.utilitiy';
 import Conferences from '../Conferences';
 import * as useConferences from '../../hooks/useConferences';
+import seedConferences from '../../mocks/seed/seedConferences';
 
 describe('Conferences', () => {
-  const isLoaded = true;
-  const conferences = [
-    {
-      id: 'idValue1',
-      name: 'nameValue1',
-      slug: 'slug-value-1',
-      location: 'locationValue1',
-      description: 'descriptionValue1',
-      path: 'pathValue1',
-    },
-    {
-      id: 'idValue2',
-      name: 'nameValue2',
-      slug: 'slug-value-2',
-      location: 'locationValue2',
-      description: 'descriptionValue2',
-      path: 'pathValue2',
-    },
-  ];
-
   it('should render expected fields from list of returned conferences', async () => {
     // arrange
-    const error = null;
-    const useConferencesHook = () => ({
-      error,
-      isLoaded,
-      conferences,
-    });
-    jest.spyOn(useConferences, 'default').mockImplementationOnce(useConferencesHook);
-
     const tree = (
       <HelmetProvider>
         <Conferences />
@@ -43,12 +16,13 @@ describe('Conferences', () => {
     );
 
     // act
-    await act(async () => render(tree));
+    render(tree);
 
     // assert
-    screen.getByText('Find a Conference');
+    expect(screen.getByTestId('loading')).toBeInTheDocument();
+    await expect(await screen.findByText(seedConferences.conferences[0].name)).toBeInTheDocument();
 
-    conferences.forEach(conference => {
+    seedConferences.conferences.forEach(conference => {
       screen.getByText(conference.name);
       screen.getByText(conference.location);
       screen.getByText(conference.description);
@@ -60,8 +34,8 @@ describe('Conferences', () => {
     const error = new Error('errorMessageValue');
     const useConferencesHook = () => ({
       error,
-      isLoaded,
-      conferences,
+      isLoaded: true,
+      conferences: seedConferences.conferences,
     });
     jest.spyOn(useConferences, 'default').mockImplementationOnce(useConferencesHook);
 

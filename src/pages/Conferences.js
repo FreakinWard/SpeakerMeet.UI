@@ -19,7 +19,7 @@ export default function Conferences() {
       <FindABanner text="Conference" />
 
       <Container maxWidth="lg" style={{ padding: 24, minHeight: '100vh' }}>
-        {!isLoaded ? <CircularProgress /> : <ResultList data={conferences} />}
+        {!isLoaded ? <CircularProgress data-testid="loading" /> : <ResultList data={conferences} />}
       </Container>
 
       <ErrorSnackbar error={error} />
