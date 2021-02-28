@@ -3,8 +3,15 @@ import { render } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import FeaturedSpeakers from '../FeaturedSpeakers';
 import * as useSpeakersFeatured from '../../hooks/useSpeakersFeatured';
+import seedSpeaker from '../../mocks/seed/seedSpeaker';
 
 describe('FeaturedSpeakers', () => {
+  const tree = (
+    <BrowserRouter>
+      <FeaturedSpeakers />
+    </BrowserRouter>
+  );
+
   it('should notify user of loading', () => {
     // arrange
     const useSpeakersFeaturedMock = () => ({
@@ -13,12 +20,6 @@ describe('FeaturedSpeakers', () => {
       speakers: [],
     });
     jest.spyOn(useSpeakersFeatured, 'default').mockImplementationOnce(useSpeakersFeaturedMock);
-
-    const tree = (
-      <BrowserRouter>
-        <FeaturedSpeakers />
-      </BrowserRouter>
-    );
 
     // act
     const { getByTestId } = render(tree);
@@ -29,15 +30,7 @@ describe('FeaturedSpeakers', () => {
 
   it('should render expected speaker fields', () => {
     // arrange
-    const speaker = {
-      id: 'idValue',
-      name: 'nameValue',
-      description: 'descriptionValue',
-      location: 'locationValue',
-      path: 'pathValue',
-      slug: 'slugValue',
-    };
-    const speakers = [speaker];
+    const speakers = [seedSpeaker];
 
     const useSpeakersFeaturedMock = () => ({
       error: null,
@@ -46,17 +39,11 @@ describe('FeaturedSpeakers', () => {
     });
     jest.spyOn(useSpeakersFeatured, 'default').mockImplementationOnce(useSpeakersFeaturedMock);
 
-    const tree = (
-      <BrowserRouter>
-        <FeaturedSpeakers />
-      </BrowserRouter>
-    );
-
     // act
     const { getByText } = render(tree);
 
     // assert
-    getByText(speaker.name);
+    getByText(seedSpeaker.name);
   });
 
   it('should alert of error', () => {
@@ -69,12 +56,6 @@ describe('FeaturedSpeakers', () => {
       speakers: [],
     });
     jest.spyOn(useSpeakersFeatured, 'default').mockImplementationOnce(useSpeakersFeaturedMock);
-
-    const tree = (
-      <BrowserRouter>
-        <FeaturedSpeakers />
-      </BrowserRouter>
-    );
 
     // act
     const { getByTestId } = render(tree);

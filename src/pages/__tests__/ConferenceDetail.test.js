@@ -1,6 +1,5 @@
 import React from 'react';
 import { screen } from '@testing-library/react';
-import { BrowserRouter } from 'react-router-dom';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core';
 import ConferenceDetail from '../ConferenceDetail';
 import { render } from '../../utils/test.utilitiy';
@@ -13,9 +12,7 @@ describe('ConferenceDetail', () => {
 
     const tree = (
       <ThemeProvider theme={theme}>
-        <BrowserRouter>
-          <ConferenceDetail />
-        </BrowserRouter>
+        <ConferenceDetail />
       </ThemeProvider>
     );
 

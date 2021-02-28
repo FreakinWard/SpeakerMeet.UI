@@ -5,6 +5,12 @@ import FeaturedCommunities from '../FeaturedCommunities';
 import * as useCommunitiesFeatured from '../../hooks/useCommunitiesFeatured';
 
 describe('FeaturedCommunities', () => {
+  const tree = (
+    <BrowserRouter>
+      <FeaturedCommunities />
+    </BrowserRouter>
+  );
+
   it('should notify user of loading', () => {
     // arrange
     const useCommunitiesFeaturedMock = () => ({
@@ -15,12 +21,6 @@ describe('FeaturedCommunities', () => {
     jest
       .spyOn(useCommunitiesFeatured, 'default')
       .mockImplementationOnce(useCommunitiesFeaturedMock);
-
-    const tree = (
-      <BrowserRouter>
-        <FeaturedCommunities />
-      </BrowserRouter>
-    );
 
     // act
     const { getByTestId } = render(tree);
@@ -50,12 +50,6 @@ describe('FeaturedCommunities', () => {
       .spyOn(useCommunitiesFeatured, 'default')
       .mockImplementationOnce(useCommunitiesFeaturedMock);
 
-    const tree = (
-      <BrowserRouter>
-        <FeaturedCommunities />
-      </BrowserRouter>
-    );
-
     // act
     const { getByText } = render(tree);
 
@@ -75,12 +69,6 @@ describe('FeaturedCommunities', () => {
     jest
       .spyOn(useCommunitiesFeatured, 'default')
       .mockImplementationOnce(useCommunitiesFeaturedMock);
-
-    const tree = (
-      <BrowserRouter>
-        <FeaturedCommunities />
-      </BrowserRouter>
-    );
 
     // act
     const { getByTestId } = render(tree);
