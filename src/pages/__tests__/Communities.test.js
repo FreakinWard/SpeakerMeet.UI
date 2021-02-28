@@ -1,9 +1,10 @@
 import React from 'react';
 import { HelmetProvider } from 'react-helmet-async';
-import { act, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
+import { rest } from 'msw';
+import { server } from '../../mocks/server';
 import { render } from '../../utils/test.utilitiy';
 import Communities from '../Communities';
-import * as useCommunities from '../../hooks/useCommunities';
 import seedCommunities from '../../mocks/seed/seedCommunities';
 import routes from '../../constants/routes';
 
@@ -36,22 +37,14 @@ describe('Communities', () => {
 
   it('should render error message from failed fetch', async () => {
     // arrange
-    const errorMock = new Error('errorMessageValue');
-    const useCommunitiesMock = () => ({
-      error: errorMock,
-      isLoaded: true,
-      communities: [],
-    });
-    jest.spyOn(useCommunities, 'default').mockImplementationOnce(useCommunitiesMock);
-    // TODO: make worksy
-    // const mockCommunitiesError = async (req, res, ctx) =>
-    //   res(ctx.status(500), ctx.json({ message: 'errorMessageValue' }));
-    // server.use(rest.get('*/Communities', mockCommunitiesError));
+    const errorHandler = async (req, res, ctx) =>
+      res(ctx.status(500), ctx.json('errorMessageValue'));
+    server.use(rest.get('*/Communities', errorHandler));
 
     // act
-    await act(async () => render(tree));
+    render(tree);
 
     // assert
-    screen.getByText(/\berrorMessageValue\b/);
+    await expect(await screen.findByTestId('snackError')).toContainHTML('errorMessageValue');
   });
 });

@@ -1,20 +1,21 @@
 import React from 'react';
 import { HelmetProvider } from 'react-helmet-async';
-import { act, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
+import { rest } from 'msw';
+import { server } from '../../mocks/server';
 import { render } from '../../utils/test.utilitiy';
 import Conferences from '../Conferences';
-import * as useConferences from '../../hooks/useConferences';
 import seedConferences from '../../mocks/seed/seedConferences';
 
 describe('Conferences', () => {
+  const tree = (
+    <HelmetProvider>
+      <Conferences />
+    </HelmetProvider>
+  );
+
   it('should render expected fields from list of returned conferences', async () => {
     // arrange
-    const tree = (
-      <HelmetProvider>
-        <Conferences />
-      </HelmetProvider>
-    );
-
     // act
     render(tree);
 
@@ -31,24 +32,14 @@ describe('Conferences', () => {
 
   it('should render error message from failed fetch', async () => {
     // arrange
-    const error = new Error('errorMessageValue');
-    const useConferencesHook = () => ({
-      error,
-      isLoaded: true,
-      conferences: seedConferences.conferences,
-    });
-    jest.spyOn(useConferences, 'default').mockImplementationOnce(useConferencesHook);
-
-    const tree = (
-      <HelmetProvider>
-        <Conferences />
-      </HelmetProvider>
-    );
+    const errorHandler = async (req, res, ctx) =>
+      res(ctx.status(500), ctx.json('errorMessageValue'));
+    server.use(rest.get('*/Conferences', errorHandler));
 
     // act
-    await act(async () => render(tree));
+    render(tree);
 
     // assert
-    screen.getByText(/\berrorMessageValue\b/);
+    await expect(await screen.findByTestId('snackError')).toContainHTML('errorMessageValue');
   });
 });
