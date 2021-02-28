@@ -1,43 +1,19 @@
 import React from 'react';
+import { screen } from '@testing-library/react';
 import Speakers from '../Speakers';
 import * as useSpeakersHook from '../../hooks/useSpeakers';
 import { render } from '../../utils/test.utilitiy';
+import seedSpeakers from '../../mocks/seed/seedSpeakers';
 
 describe('Speakers', () => {
-  it('should render loading', () => {
+  it('should render loading then show speakers', async () => {
     // arrange
-    const hook = { isLoaded: false };
-    jest.spyOn(useSpeakersHook, 'default').mockImplementationOnce(() => hook);
-
     // act
-    const { getByTestId } = render(<Speakers />);
+    render(<Speakers />);
 
     // assert
-    getByTestId('loading');
-  });
-
-  it('should render speakers', () => {
-    // arrange
-    const hook = {
-      speakers: [
-        {
-          id: 'idValue1',
-          description: 'descriptionValue1',
-          location: 'locationValue1',
-          name: 'nameValue1',
-          slug: 'slugValue1',
-          path: 'path1',
-        },
-      ],
-      isLoaded: true,
-    };
-    jest.spyOn(useSpeakersHook, 'default').mockImplementationOnce(() => hook);
-
-    // act
-    const { getByText } = render(<Speakers />);
-
-    // assert
-    getByText(hook.speakers[0].name);
+    expect(screen.getByTestId('loading')).toBeInTheDocument();
+    await expect(await screen.findByText(seedSpeakers.speakers[0].name)).toBeInTheDocument();
   });
 
   it('should render the error', () => {
