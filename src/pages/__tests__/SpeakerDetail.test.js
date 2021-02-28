@@ -10,6 +10,7 @@ describe('SpeakerDetail', () => {
   it('should render the expected Speaker fields', async () => {
     // arrange
     const theme = createMuiTheme();
+    const route = `${routes.speakers.path}/${seedSpeaker.slug}`;
 
     const tree = (
       <ThemeProvider theme={theme}>
@@ -18,9 +19,7 @@ describe('SpeakerDetail', () => {
     );
 
     // act
-    render(tree, {
-      route: `${routes.speakers.path}/${seedSpeaker.slug}`,
-    });
+    render(tree, { route });
 
     // assert
     await expect(await screen.findByText(seedSpeaker.name)).toBeInTheDocument();

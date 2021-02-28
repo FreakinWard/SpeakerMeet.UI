@@ -10,7 +10,7 @@ describe('CommunityDetail', () => {
   it('should render the expected Community fields', async () => {
     // arrange
     const theme = createMuiTheme();
-
+    const route = `${routes.communities.path}/${seedCommunity.slug}`;
     const tree = (
       <ThemeProvider theme={theme}>
         <CommunityDetail />
@@ -18,9 +18,7 @@ describe('CommunityDetail', () => {
     );
 
     // act
-    render(tree, {
-      route: `${routes.communities.path}/${seedCommunity.slug}`,
-    });
+    render(tree, { route });
 
     // assert
     await screen.findByText(seedCommunity.name);

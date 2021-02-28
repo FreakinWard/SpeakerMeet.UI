@@ -17,11 +17,10 @@ describe('Communities', () => {
   it('should render expected fields from list of returned communities', async () => {
     // arrange
     const { communities } = seedCommunities;
+    const route = `${routes.communities.path}/${seedCommunities.communities[0].slug}`;
 
     // act
-    render(tree, {
-      route: `${routes.communities.path}/${seedCommunities.communities[0].slug}`,
-    });
+    render(tree, { route });
 
     // assert
     screen.getByText('Find a Community');

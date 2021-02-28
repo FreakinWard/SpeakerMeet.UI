@@ -9,8 +9,10 @@ import routes from '../../constants/routes';
 describe('Speakers', () => {
   it('should render loading then show speakers', async () => {
     // arrange
+    const route = `${routes.speakers.path}/${seedSpeakers.speakers[0].slug}`;
+
     // act
-    render(<Speakers />, { route: `${routes.speakers.path}/${seedSpeakers.speakers[0].slug}` });
+    render(<Speakers />, { route });
 
     // assert
     expect(screen.getByTestId('loading')).toBeInTheDocument();
