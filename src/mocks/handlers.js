@@ -5,6 +5,10 @@ import seedConference from './seed/seedConference';
 import seedSpeakers from './seed/seedSpeakers';
 import seedSpeaker from './seed/seedSpeaker';
 import seedConferences from './seed/seedConferences';
+import seedStatisticsCount from './seed/seedStatisticsCount';
+
+const presentationsHandler = (req, res, ctx) => res(ctx.json([]));
+const statisticsHandler = (req, res, ctx) => res(ctx.json(seedStatisticsCount));
 
 const communitiesHandler = (req, res, ctx) => res(ctx.json(seedCommunities));
 const communityHandler = (req, res, ctx) => res(ctx.json(seedCommunity));
@@ -19,6 +23,9 @@ const featuredSpeakerHandler = (req, res, ctx) => res(ctx.json([]));
 
 // eslint-disable-next-line import/prefer-default-export
 export const handlers = [
+  rest.get('*/Statistics/Counts', statisticsHandler),
+  rest.get('*/Speakers/idValue/Presentations', presentationsHandler),
+
   rest.get('*/Communities', communitiesHandler),
   rest.get(`*/Communities/:slug`, communityHandler),
 
